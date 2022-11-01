@@ -33,38 +33,8 @@ public class QuestionController {
         this.userService = userService;
     }
 
-//    @PostMapping("/answer/modify")
-//    public String answerModify(AnswerDto answerDto, BindingResult result, Integer page, Integer pageSize, Model m, RedirectAttributes rattr) {
-//        System.out.println("result = " + result);
-//        //userId는 인조식별자
-////        Integer writer = (int) session.getAttribute("userId");
-//        Integer writer = 43;
-//        System.out.println("answerDto = " + answerDto);
-//        answerDto.setUserId(writer);
-//
-//        try {
-//            rattr.addAttribute("page", page);
-//            rattr.addAttribute("pageSize", pageSize);
-//
-//            int rowCnt = answerService.modify(answerDto);
-//            if(rowCnt!=1)
-//                throw new Exception("Modify Failed");
-//            rattr.addFlashAttribute("msg", "MOD_OK");
-//            return "redirect:/question/list";
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            m.addAttribute(answerDto);
-//            m.addAttribute("msg", "MOD_ERR");
-//
-//            return "question/questionWrite.mainTiles";
-//        }
-//    }
-
     @GetMapping("/waiting")
     public String waitingList(String option, Integer page, Integer pageSize, Model m, RedirectAttributes rattr) {
-        //로그인 구현되면 주석 풀고 수정.
-//        if(!loginCheck(request))
-//            return "redirect:/login/login+toURL"+request.getRequestURL();
         if(page==null) page=1;
         if(pageSize==null) pageSize=8;
 
@@ -108,8 +78,6 @@ public class QuestionController {
             answerDto = answerService.read(answerId);
             System.out.println("questionDto = " + questionDto);
             System.out.println("answerDto = " + answerDto);
-//            m.addAttribute("page", page);
-//            m.addAttribute("pageSize", pageSize);
             m.addAttribute(questionDto);
             m.addAttribute(answerDto);
         } catch (Exception e) {
@@ -218,7 +186,6 @@ public class QuestionController {
         //1. hashtag를 공백으로 구분해서 input태그에서 입력받고, 컨트롤러에서 받아서 공백으로 나눈다.
         if(questionDto.getHashtag()==null || questionDto.getHashtag().trim().equals(""))
             questionDto.setHashtag("아무나다좋아");
-//        String newHashtag = questionDto.getHashtag().replaceAll("\\s+","");
         String replaceHashtag = questionDto.getHashtag().trim().replaceAll(" +", " ");
         String[] hashList = replaceHashtag.split(" ");
         //2. 배열에서 값을 하나씩 꺼내서 앞에 #을 붙이고 문자열로 변환한다.
@@ -259,7 +226,6 @@ public class QuestionController {
     @PostMapping("/remove")
     public String remove(Integer id, Integer page, Integer pageSize, Model m, HttpSession session, RedirectAttributes rattr) {
         Integer writer = (int) session.getAttribute("id");
-//        int writer = 43;
         try {
             rattr.addAttribute("page", page);
             rattr.addAttribute("pageSize", pageSize);
@@ -277,7 +243,6 @@ public class QuestionController {
 
     @PostMapping("/answer/select")
     public String select(QuestionDto questionDto,
-//                         Integer id,
                          Model m, HttpSession session, Integer page, Integer pageSize, RedirectAttributes rattr) {
         Integer writer = (int) session.getAttribute("id");
         questionDto.setUserId(writer);
@@ -286,7 +251,6 @@ public class QuestionController {
 
         try {
             int rowCnt = questionService.updateStatus(questionDto);
-//            questionDto = questionService.read(id);
 
             if(rowCnt!=1)
                 throw new Exception("Select Failed");
@@ -302,10 +266,8 @@ public class QuestionController {
             m.addAttribute("msg", "SELECT_OK");
             System.out.println("questionDto = " + questionDto);
 
-//            System.out.println("id = " + id);
         }
         return "redirect:/question/read";
-//        return "question/question.mainTiles";
     }
 
     @GetMapping("/read")
@@ -330,9 +292,6 @@ public class QuestionController {
 
     @GetMapping("/list")
     public String list(Integer page, Integer pageSize, String option, Model m, HttpServletRequest request) {
-        //로그인 구현되면 주석 풀고 수정.
-//        if(!loginCheck(request))
-//            return "redirect:/login/login+toURL"+request.getRequestURL();
         if(page==null) page=1;
         if(pageSize==null) pageSize=8;
 

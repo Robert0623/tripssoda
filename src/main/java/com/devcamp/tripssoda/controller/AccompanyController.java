@@ -43,7 +43,6 @@ public class AccompanyController {
 
     @PostMapping("/select")
     public String select(AccompanyDto accompanyDto,
-//                         Integer id,
                          Model m, HttpSession session, Integer page, Integer pageSize, RedirectAttributes rattr) {
         Integer writer = (int) session.getAttribute("id");
         accompanyDto.setUserId(writer);
@@ -52,7 +51,6 @@ public class AccompanyController {
 
         try {
             int rowCnt = accompanyService.updateStatus(accompanyDto);
-//            questionDto = questionService.read(id);
 
             if(rowCnt!=1)
                 throw new Exception("Update Status Failed");
@@ -67,11 +65,8 @@ public class AccompanyController {
             m.addAttribute(accompanyDto);
             m.addAttribute("msg", "SELECT_OK");
             System.out.println("accompanyDto = " + accompanyDto);
-
-//            System.out.println("id = " + id);
         }
         return "redirect:/accompany/read";
-//        return "question/question.mainTiles";
     }
 
     @GetMapping("/waiting")
@@ -110,25 +105,6 @@ public class AccompanyController {
             } else {
                 list = accompanyService.waitingGetPage(map);
             }
-
-//            System.out.println("list.size() = " + list.size());
-//            List<AccompanyDto> list2 = new ArrayList<>();
-//
-//            Date today = new Date();
-//            for (int i = 0; i < list.size(); i++) {
-//                if(list.get(i).getEndAt().getTime()<today.getTime()) {
-//                    list.get(i).setStatus(1);
-//                }
-//                System.out.println("list.get(0) = " + list.get(0));
-//                System.out.println("list.get(0).getStatus() = " + list.get(0).getStatus());
-//                boolean a = list.get(0).getStatus()==0;
-//                System.out.println("a = " + a);
-//                if(list.get(i).getStatus()==0) {
-//                    list2.add(list.get(i));
-//                }
-//                System.out.println("list2.get(0) = " + list2.get(0).getStatus());
-//            }
-//            System.out.println("list2.size() = " + list2.size());
 
             m.addAttribute("mode", "waiting");
             m.addAttribute("ph", ph);
@@ -298,9 +274,7 @@ public class AccompanyController {
 
     @PostMapping("/remove")
     public String remove(Integer id, Integer page, Integer pageSize, Model m, HttpSession session, RedirectAttributes rattr) {
-        //writer
         Integer writer = (int) session.getAttribute("id");
-//        Integer writer = 43;
 
         try {
             rattr.addAttribute("page", page);
@@ -319,7 +293,6 @@ public class AccompanyController {
     @GetMapping("/read")
     public String read(Integer id, Integer page, Integer pageSize, Model m, RedirectAttributes rattr) {
         AccompanyDto accompanyDto = null;
-
 
         try {
             accompanyDto = accompanyService.read(id);
@@ -352,7 +325,6 @@ public class AccompanyController {
             System.out.println("id = " + id);
             System.out.println("accompanyDto.getEndAt() = " + accompanyDto.getEndAt());
             System.out.println("accompanyDto.getStatus() = " + accompanyDto.getStatus());
-//            accompanyService.updateStatus(id, accompanyDto.getEndAt());
             System.out.println("accompanyDto.getEndAt() = " + accompanyDto.getEndAt().getTime());
             Date today = new Date();
             Date sqlDateToday = new java.sql.Date(today.getTime());
@@ -361,7 +333,6 @@ public class AccompanyController {
             long subtractGetTime = sqlDateToday.getTime() - sqlDateEndAt.getTime();
             System.out.println("subtractGetTime = " + subtractGetTime);
             if(accompanyDto.getEndAt().getTime()+(60*60*24*1000)<=today.getTime()) {
-//            if(subtractGetTime > 0) {
                 accompanyDto.setStatus(1);
             }
 
@@ -372,7 +343,6 @@ public class AccompanyController {
             //3. 둘 다 milliseconds로 변환 후 오늘 날짜 - endAt<=0이면
 
             //4. status를 1로 업데이트하고, 1은 지난여행을 뷰에 출력한다.
-
 
             m.addAttribute(accompanyDto);
             m.addAttribute("page", page);
@@ -425,14 +395,7 @@ public class AccompanyController {
                     list.get(i).setStatus(1);
                 }
             }
-//            System.out.println("list = " + list);
-//            System.out.println("list.get(0).getEndAt() = " + list.get(0).getEndAt());
-//            System.out.println("today = " + today.getTime());
-//            for (int i = 0; i <= list.size()-1; i++) {
-//                if(list.get(i).getEndAt().getTime()<=today.getTime()) {
-//                    list.get(i).setStatus(1);
-//                }
-//            }
+
             m.addAttribute("ph", ph);
             m.addAttribute("list", list);
             m.addAttribute("page", page);

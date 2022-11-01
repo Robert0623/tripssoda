@@ -26,7 +26,6 @@ public class AnswerController {
     @PatchMapping("/answers/{id}")
     public ResponseEntity<String> modify(@PathVariable Integer id, @RequestBody AnswerDto dto, HttpSession session) {
         Integer userId = (Integer) session.getAttribute("id");
-//        Integer userId = 43;
         System.out.println("userId = " + userId);
         dto.setUserId(userId);
         dto.setId(id);
@@ -44,7 +43,6 @@ public class AnswerController {
     @PostMapping("/answers")
     public ResponseEntity<String> write(@RequestBody AnswerDto dto, Integer questionId, HttpSession session) {
         Integer userId = (Integer) session.getAttribute("id");
-//        Integer userId = 43;
         String email = (String) session.getAttribute("email");
         UserDto userDto = userService.selectUserByEmail(email);
         String nickname = userDto.getNickname();
@@ -69,7 +67,6 @@ public class AnswerController {
     @DeleteMapping("/answers/{id}")
     public ResponseEntity<String> remove(@PathVariable Integer id, Integer questionId, HttpSession session) {
         Integer userId = (Integer) session.getAttribute("id");
-//        Integer userId = 43;
         try {
             System.out.println("id = " + id);
             System.out.println("questionId = " + questionId);
